@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For My SUDU 💖</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    overflow:hidden;
+    background: linear-gradient(135deg,#ff4d6d,#ff8fa3,#ffd1dc);
+    color:white;
+}
+
+/* BACKGROUND HEARTS */
+#bg-hearts{
+    position:fixed;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    z-index:0;
+    pointer-events:none;
+}
+
+.heart-bg{
+    position:absolute;
+    top:-10%;
+    font-size:18px;
+    color:rgba(255,255,255,0.6);
+    animation:fall linear infinite;
+}
+
+@keyframes fall{
+    to{ transform:translateY(120vh); }
+}
+
+/* PAGES */
+.page{
+    display:none;
+    height:100vh;
+    width:100%;
+    padding:40px;
+    text-align:center;
+    position:relative;
+    z-index:2;
+}
+
+.active{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+/* TEXT */
+h1{
+    font-size:44px;
+    text-shadow:0 5px 20px rgba(0,0,0,0.3);
+}
+
+h2{
+    font-size:32px;
+}
+
+/* BUTTONS */
+button{
+    margin-top:15px;
+    padding:14px 28px;
+    border:none;
+    border-radius:50px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    background:white;
+    color:#ff4d6d;
+    transition:0.3s;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+button:hover{
+    transform:scale(1.1);
+}
+
+/* INPUT */
+input{
+    padding:14px;
+    border-radius:20px;
+    border:none;
+    text-align:center;
+    font-size:16px;
+    margin-top:15px;
+}
+
+/* GIFT */
+.gift{
+    font-size:130px;
+    cursor:pointer;
+    animation:bounce 1.5s infinite;
+}
+
+@keyframes bounce{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-20px);}
+}
+
+/* HEARTS */
+.heart{
+    position:fixed;
+    color:white;
+    font-size:18px;
+    animation:float 3s linear forwards;
+    z-index:999;
+}
+
+@keyframes float{
+    from{transform:translateY(-10vh); opacity:1;}
+    to{transform:translateY(110vh); opacity:0;}
+}
+
+/* ===================== LETTER PAGE ===================== */
+
+.letter-wrapper{
+    height:65vh;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* CENTER SCROLL BOX */
+.letter-box{
+    width:85%;
+    max-width:750px;
+    height:420px;
+
+    padding:25px;
+    border-radius:25px;
+
+    background:rgba(255,255,255,0.18);
+    backdrop-filter:blur(18px);
+
+    box-shadow:0 15px 40px rgba(0,0,0,0.25);
+
+    overflow-y:auto;
+    scroll-behavior:smooth;
+}
+
+/* TEXT INSIDE */
+#letterText{
+    font-size:24px;
+    line-height:1.8;
+    white-space:pre-line;
+    text-align:center;
+    color:white;
+}
+
+/* BUTTONS */
+.letter-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND HEARTS -->
+<div id="bg-hearts"></div>
+
+<div id="effects"></div>
+
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+<h1>Hi SUDU 💖</h1>
+<p>I made something special for you...</p>
+<button onclick="go(2)">Start</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+<h2>Enter Password 💌</h2>
+<input id="pass" placeholder="Enter password">
+<button onclick="checkPass()">OK</button>
+</div>
+
+<!-- PAGE 3 -->
+
+<div class="page" id="p3">
+<h2>🎁 Open Gift</h2>
+
+<div class="gift" onclick="openGift()">🎁</div>
+
+<div id="giftMessage" style="margin-top:20px; font-size:22px;"></div>
+
+<button id="nextBtn" style="display:none;" onclick="go(4)">Next 💖</button>
+
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="p4">
+<h2>Who loves you most? 💖</h2>
+<button onclick="wrong()">Someone</button>
+<button onclick="correct()">chuty💌💖</button>
+<button onclick="wrong()">Nobody</button>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page" id="p5">
+<h2>💌 My Reasons for Loving You 💙💌</h2>
+<p id="reasons"></p>
+<button onclick="go(6)">Next</button>
+</div>
+
+<!-- PAGE 6 LETTER -->
+<div class="page" id="p6">
+
+<h2>💖 My Love Letter</h2>
+
+<div class="letter-wrapper">
+    <div class="letter-box">
+        <div id="letterText"></div>
+    </div>
+</div>
+
+<div class="letter-buttons">
+    <button onclick="typeLetter()">Start Reading 💌</button>
+    <button onclick="go(7)">Next 💖</button>
+</div>
+
+</div>
+
+<!-- PAGE 7 -->
+<div class="page" id="p7">
+<h1>Will you stay with me forever? 💍</h1>
+
+<button onclick="yes()">YES ❤️</button>
+<button onclick="no()">NO 💔</button>
+
+<h2 id="finalMsg"></h2>
+</div>
+
+<script>
+
+/* PAGE NAVIGATION */
+let page = 1;
+function go(n){
+document.getElementById("p"+page).classList.remove("active");
+page=n;
+document.getElementById("p"+page).classList.add("active");
+}
+
+/* PASSWORD */
+function checkPass(){
+let p=document.getElementById("pass").value.toLowerCase();
+if(p==="sudu"){
+go(3);
+}else{
+alert("Only for my SUDU 💖");
+}
+}
+
+/* GIFT */
+function openGift(){
+    effects();
+
+    document.getElementById("giftMessage").innerHTML =
+        "I LOVE YOU SUDU 💖🥺✨💞💐";
+
+    document.getElementById("nextBtn").style.display = "inline-block";
+}
+
+/* GAME */
+function wrong(){ alert("💔 but I still love you 💖"); }
+function correct(){ go(5); }
+
+/* REASONS */
+let text=[
+"💖 I love your smile because it makes my whole world feel brighter",
+"🥰 I love your voice because it feels like comfort to my heart",
+"💗 I love your heart because it is so pure and kind",
+"💕 I love the way you care for me, even in the smallest things",
+"🌙 I love missing you, because it means you are special to me",
+"💬 I love every conversation with you, it stays in my heart",
+"✨ I love how you make ordinary days feel magical"
+];
+
+let i=0;
+function showReasons(){
+if(i<text.length){
+document.getElementById("reasons").innerHTML+=text[i]+"<br>";
+i++;
+setTimeout(showReasons,800);
+}
+}
+setTimeout(showReasons,1000);
+
+/* 💌 LETTER */
+let letter = `I don’t even know where to begin,
+ because there are so many things I feel for you that words can’t fully explain… 
+ but I’ll try, because you deserve to know how much you mean to me. 
+ Even though I haven't seen you live yet,
+ and I only get to see you through video calls…
+ you make my world feel so complete. It’s strange,
+ isn’t it? How someone so far away can feel so close to my heart every single day. 
+ There are moments when I miss you so much it hurts…
+ when I wish I could just see you, talk to you face to face,
+ or even just sit quietly next to you. But even with all that distance, 
+ you never fail to make me smile. You make my days brighter in ways you probably don’t even realize. 
+ From Sri Lanka to Australia… there’s a whole world between us, 
+ but somehow my heart always finds its way to you. No matter how far you are, 
+ you are always with me in my thoughts, in my smile, and in everything I do. 
+ Thank you for loving me the way you do. 
+ Thank you for being patient with me. 
+ Thank you for making me feel special, safe, and happy. 
+ I’m so lucky to have you in my life, SUDU. 
+ Truly You are not just my boyfriend… you are my comfort, my happiness, and my favorite person 
+ in this whole world. No matter what happens, no matter how far the distance is… 
+ my heart will always choose you. Again and again. 
+ I love you more than words can ever explain… 
+ Forever and always 💖`;
+
+let j = 0;
+
+function typeLetter(){
+document.getElementById("letterText").innerHTML="";
+j=0;
+writeLetter();
+}
+
+function writeLetter(){
+let box=document.getElementById("letterText");
+
+if(j < letter.length){
+box.innerHTML += letter[j];
+box.scrollTop = box.scrollHeight; // auto scroll inside box
+j++;
+setTimeout(writeLetter, 35);
+}
+}
+
+/* FINAL */
+function yes(){
+document.getElementById("finalMsg").innerHTML="I LOVE YOU FOREVER 💖";
+effects();
+}
+
+function no(){
+alert("Please say YES 🥺💖");
+}
+
+/* HEART EFFECT */
+function effects(){
+for(let i=0;i<40;i++){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+document.getElementById("effects").appendChild(h);
+setTimeout(()=>h.remove(),3000);
+}
+}
+
+/* BACKGROUND HEARTS */
+function bgHearts(){
+for(let i=0;i<25;i++){
+let h=document.createElement("div");
+h.className="heart-bg";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=(5+Math.random()*5)+"s";
+document.getElementById("bg-hearts").appendChild(h);
+}
+}
+bgHearts();
+
+</script>
+
+</body>
+</html>
